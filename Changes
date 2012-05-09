@@ -1,5 +1,8 @@
 Revision history for Catmandu-LDAP
 
+0.0101  2012-05-09
+  - assume all attributes not matching /;binary/ are utf8 text
+
 0.01    2012-05-09
   - initial release
 

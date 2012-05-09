@@ -34,7 +34,7 @@ has attributes    => (
 
 sub _build_ldap {
     my $self = $_[0];
-    my $ldap = Net::LDAP->new($self->host) || confess $@;
+    my $ldap = Net::LDAP->new($self->host, raw => qr/;binary/) || confess $@;
     my $bind = $self->has_base
         ? $self->has_password
             ? $ldap->bind($self->base, password => $self->password)
