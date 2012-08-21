@@ -50,7 +50,7 @@ sub _new_search {
     $args{base}   = $self->search_base   if $self->has_search_base;
     $args{filter} = $self->search_filter if $self->has_search_filter;
     if (my $attrs = $self->attributes) {
-        $args{attrs} = keys %$attrs;
+        $args{attrs} = [keys %$attrs];
     }
     my $search = $self->ldap->search(%args);
     $search->code && confess $search->error;
