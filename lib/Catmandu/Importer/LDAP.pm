@@ -2,8 +2,9 @@ package Catmandu::Importer::LDAP;
 
 use Catmandu::Sane;
 use Catmandu::Util qw(:is);
-use Moo;
+use Carp qw(confess);
 use Net::LDAP;
+use Moo;
 
 with 'Catmandu::Importer';
 
