@@ -6,11 +6,11 @@ Catmandu::LDAP - Catmandu modules for working with LDAP directories
 
 =head1 VERSION
 
-Version 0.0102
+Version 0.0103
 
 =cut
 
-our $VERSION = '0.0102';
+our $VERSION = '0.0103';
 
 =head1 MODULES
 

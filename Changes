@@ -1,5 +1,8 @@
 Revision history for Catmandu-LDAP
 
+0.0103  2013-03-26
+  - import confess
+
 0.0102  2012-08-21
   - bugfix: ldap search attrs should be arrayref
 
