@@ -1,5 +1,8 @@
 Revision history for Catmandu-LDAP
 
+{{$NEXT}}
+  - Moving to Dist::Milla
+  
 0.0103  2013-03-26
   - import confess
 
@@ -11,4 +14,3 @@ Revision history for Catmandu-LDAP
 
 0.01    2012-05-09
   - initial release
-

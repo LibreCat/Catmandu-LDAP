@@ -8,6 +8,8 @@ use Moo;
 
 with 'Catmandu::Importer';
 
+our $VERSION = '0.0103';
+
 has host          => (is => 'ro', default => sub { 'ldap://127.0.0.1:389' });
 has base          => (is => 'ro', predicate => 1);
 has password      => (is => 'ro', predicate => 1);

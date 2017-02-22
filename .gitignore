@@ -5,9 +5,10 @@
 _build
 blib
 Build
-LICENSE
 Makefile.PL
-MANIFEST*
+Build.PL
 META.*
 MYMETA.*
 Catmandu-LDAP-*
+local
+cpanfile.snapshot
