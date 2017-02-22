@@ -43,7 +43,11 @@ sub _build_ldap {
             ? $ldap->bind($self->base, password => $self->password)
             : $ldap->bind($self->base)
         : $ldap->bind;
-    $bind->code && confess $bind->error;
+
+    if ($bind->code != 0) {
+        $self->log->error($bind->error);
+        return undef;
+    }
     $ldap;
 }
 
@@ -56,7 +60,9 @@ sub _new_search {
         $args{attrs} = [keys %$attrs];
     }
     my $search = $self->ldap->search(%args);
-    $search->code && confess $search->error;
+    if ($search->code != 0) {
+        $self->log->error($search->error);
+    }
     $search;
 }
 
@@ -88,26 +94,70 @@ Catmandu::Importer::LDAP - Package that imports LDAP directories
 
 =head1 SYNOPSIS
 
-    use Catmandu::Importer::LDAP;
+    # From the command line
 
-    my $importer = Catmandu::Importer::LDAP->new(
-        base => "...",
-        password => "...",
-        search_base => "...",
-        search_filter => "(&(...)(...))",
-        attributes => {
-            name => 1,
-            # or
-            name => {as => "Name"},
-            # or
-            name => {as => "Name", array => 1},
-        },
-    );
+    # Anonymous bind to find all 'Patrick's
+    $ catmandu convert LDAP \
+            --host ldaps://ldaps.ugent.be \
+            --search-filter '(givenName=Patrick)' \
+            --search-base 'dc=ugent, dc=be' to YAML
 
-    my $n = $importer->each(sub {
-        my $hashref = $_[0];
-        # ...
-    });
+    # From Perl
+
+    use Catmandu;
+
+    my $importer = Catmandu->importer('LDAP',
+                         host          => 'ldaps://ldaps.ugent.be' ,
+                         search_filter => '(givenName=Patrick)' ,
+                         search_base   => 'dc=ugent, dc=be'
+                    );
+
+    my $exporter = Catmandu->exporter('YAML');
+
+    $exporter->add_many($importer);
+
+    $exporter->commit;
+
+=head1 CONFIGURATION
+
+=over
+
+=item host
+
+The LDAP host to connect to
+
+=item base
+
+The base to bind to (if not specified it is an anonymous bind)
+
+=item password
+
+The password needed for the bind
+
+=item search_base
+
+The DN that is the base object entry relative to which the search is to be performed.
+
+=item search_filter
+
+One or more search filters. E.g.
+
+   (givenName=Patrick)    # search Patrick
+   (&(givenName=Patrick)(postalCode=9000))  # search Patrick AND postalcode=9000
+   (|)(givenName=Patrick)(postalCode=9000)) # search Patrick OR postcalcode=9000
+
+=back
+
+=head1 METHODS
+
+Every Catmandu::Importer is a Catmandu::Iterable all its methods are inherited.
+The methods are not idempotent: LDAP streams can only be read once.
+
+=head1 SEE ALSO
+
+L<Catmandu> ,
+L<Catmandu::Importer> ,
+L<Catmandu::Iterable>
 
 =cut
 

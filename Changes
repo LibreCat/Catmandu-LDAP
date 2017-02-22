@@ -2,6 +2,7 @@ Revision history for Catmandu-LDAP
 
 {{$NEXT}}
   - Moving to Dist::Milla
+  - Adding POD
   
 0.0103  2013-03-26
   - import confess
